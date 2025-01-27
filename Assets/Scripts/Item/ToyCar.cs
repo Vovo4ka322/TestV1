@@ -1,1 +1,4 @@
-public class ToyCar : Item { }
+namespace Items
+{
+    public class ToyCar : Item { }
+}

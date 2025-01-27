@@ -1,1 +1,4 @@
-public class Box : Item { }
+namespace Items
+{
+    public class Box : Item { }
+}

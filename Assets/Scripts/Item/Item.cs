@@ -1,12 +1,15 @@
 using UnityEngine;
 
-public class Item : MonoBehaviour
+namespace Items
 {
-    public void ChangePosition(Transform newPosition, Transform newParent)
+    public class Item : MonoBehaviour
     {
-        transform.position = newPosition.position;
-        transform.SetParent(newParent);
-    }
+        public void ChangePosition(Transform newPosition, Transform newParent)
+        {
+            transform.position = newPosition.position;
+            transform.SetParent(newParent);
+        }
 
-    public void LoseParent() => transform.SetParent(null);
+        public void LoseParent() => transform.SetParent(null);
+    }
 }

@@ -1,8 +1,11 @@
+using Items;
 using System;
 using UnityEngine;
 
 public class Selector : MonoBehaviour
 {
+    [SerializeField] private Camera _camera;
+
     private int _selectedObject = 0;
     private float _rayDistance = 1.5f;
 
@@ -17,7 +20,8 @@ public class Selector : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(_selectedObject))
         {
-            Ray ray = new(transform.position, transform.forward);
+            Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+
 
             if (Physics.Raycast(ray, out RaycastHit raycastHit, _rayDistance))
             {

@@ -1,1 +1,4 @@
-public class HorseCup : Item { }
+namespace Items
+{
+    public class HorseCup : Item { }
+}

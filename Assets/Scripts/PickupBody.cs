@@ -1,3 +1,5 @@
+using Items;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +8,8 @@ public class PickupBody : MonoBehaviour
     [SerializeField] private List<Transform> _placesForSeat;
 
     private List<Item> _items = new();
+
+    public event Action ItemTook;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -18,6 +22,7 @@ public class PickupBody : MonoBehaviour
             int index = _items.IndexOf(item);
 
             item.transform.position = _placesForSeat[index].position;
+            ItemTook?.Invoke();
         }
     }
 }

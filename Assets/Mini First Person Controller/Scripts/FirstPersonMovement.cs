@@ -10,8 +10,11 @@ public class FirstPersonMovement : MonoBehaviour
     public bool IsRunning { get; private set; }
     public float runSpeed = 9;
     public KeyCode runningKey = KeyCode.LeftShift;
-
     Rigidbody rigidbody;
+
+    [SerializeField] private Joystick _joystick;
+    [SerializeField] private bool _isJoystickActive;
+
     /// <summary> Functions to override movement speed. Will use the last added override. </summary>
     public List<System.Func<float>> speedOverrides = new List<System.Func<float>>();
 
@@ -35,10 +38,22 @@ public class FirstPersonMovement : MonoBehaviour
             targetMovingSpeed = speedOverrides[speedOverrides.Count - 1]();
         }
 
-        // Get targetVelocity from input.
-        Vector2 targetVelocity =new Vector2( Input.GetAxis("Horizontal") * targetMovingSpeed, Input.GetAxis("Vertical") * targetMovingSpeed);
+        Vector2 targetVelocity;
+
+        if (_isJoystickActive == false)
+        {
+            // Get targetVelocity from input.
+            targetVelocity = new Vector2(Input.GetAxis("Horizontal") * targetMovingSpeed, Input.GetAxis("Vertical") * targetMovingSpeed);
+
+        }
+        else
+        {
+            targetVelocity.x = _joystick.Horizontal * speed;
+            targetVelocity.y = _joystick.Vertical * speed;
+        }
 
         // Apply movement.
         rigidbody.velocity = transform.rotation * new Vector3(targetVelocity.x, rigidbody.velocity.y, targetVelocity.y);
+
     }
 }

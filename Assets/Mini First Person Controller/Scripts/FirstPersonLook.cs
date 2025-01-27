@@ -4,12 +4,14 @@ public class FirstPersonLook : MonoBehaviour
 {
     [SerializeField]
     Transform character;
-    public float sensitivity = 2;
+    public float sensitivity = 0.5f;
     public float smoothing = 1.5f;
 
     Vector2 velocity;
     Vector2 frameVelocity;
 
+    [SerializeField] private Joystick _joystick;
+    [SerializeField] private bool _isJoystickActive = true;
 
     void Reset()
     {
@@ -20,14 +22,26 @@ public class FirstPersonLook : MonoBehaviour
     void Start()
     {
         // Lock the mouse cursor to the game screen.
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Update()
     {
         // Get smooth velocity.
-        Vector2 mouseDelta = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
-        Vector2 rawFrameVelocity = Vector2.Scale(mouseDelta, Vector2.one * sensitivity);
+        Vector2 delta;
+
+        if (_isJoystickActive == false)
+        {
+            delta = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
+        }
+        else
+        {
+            delta.x = _joystick.Horizontal;
+            delta.y = _joystick.Vertical;
+        }
+
+
+        Vector2 rawFrameVelocity = Vector2.Scale(delta, Vector2.one * sensitivity);
         frameVelocity = Vector2.Lerp(frameVelocity, rawFrameVelocity, 1 / smoothing);
         velocity += frameVelocity;
         velocity.y = Mathf.Clamp(velocity.y, -90, 90);
